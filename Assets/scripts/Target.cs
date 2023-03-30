@@ -39,18 +39,40 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
-        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        gameManager.UpdateScore(pointValue);
-    }
+        if (gameManager.isGameActive)
+        {
+            if (gameObject.CompareTag("Bad"))
+            {
+                gameManager.BadObject++;
+            }
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            gameManager.UpdateScore(pointValue);
+        }
 
-    private void OnTriggerEnter(Collider other)
+
+     }
+
+        private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        if (!gameObject.CompareTag("Bad"))
+        {
+            //gameManager.GameOver();
+        }
+        //if (gameObject.CompareTag("Bad"))
+        //{
+        //    gameManager.BadObject++;
+            
+        //}
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameManager.BadObject >= 3)
+        {
+            gameManager.GameOver();
+        }
+
     }
 }
